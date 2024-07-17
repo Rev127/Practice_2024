@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ToDoApp.Data.Models;
 
 
@@ -17,13 +11,7 @@ namespace ToDoApp.Data.Context
         public DbSet<Statuses> Statuss { get; set; }
         public DbSet<Tasks> Task {  get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-5VQJ04P\\SQLEXPRESS;Initial Catalog=ToDoApp;Integrated Security=True;Encrypt=False")
-            .LogTo(Console.WriteLine);
-
-            base.OnConfiguring(optionsBuilder);
-        }
+        public ToDoContext(DbContextOptions<ToDoContext> options) : base(options) {}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
