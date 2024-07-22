@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ToDoApp.Data.Context;
+using ToDoApp.Services.Interfaces;
+using ToDoApp.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,11 @@ builder.Services.AddDbContext<ToDoContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
+
+builder.Services.AddScoped<IToDoBoardServices, ToDoBoardServices>();
+builder.Services.AddScoped<IToDoTasksServices, ToDoTasksServices>();
+builder.Services.AddScoped<ICurrentUserServices, CurrentUserServices>();
+builder.Services.AddScoped<ICurrentBoardServises, CurrentBoardServices>();
 
 var app = builder.Build();
 
