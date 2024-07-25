@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp", "ToDoApp\ToDoApp.csproj", "{9EABF5D9-3136-43A9-B0AE-4CBF2C8CD879}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp.Data", "ToDoApp.Data\ToDoApp.Data.csproj", "{DE368B44-C29D-4F24-A647-70C882E59FC4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp.Api", "ToDoApp.Api\ToDoApp.Api.csproj", "{7A95B282-40FD-427E-ACF2-82F56A5CE668}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoApp.Services", "ToDoApp.Services\ToDoApp.Services.csproj", "{C5EE70A1-03A8-4DE7-80ED-1CA523056FA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp.Services", "ToDoApp.Services\ToDoApp.Services.csproj", "{C5EE70A1-03A8-4DE7-80ED-1CA523056FA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9EABF5D9-3136-43A9-B0AE-4CBF2C8CD879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9EABF5D9-3136-43A9-B0AE-4CBF2C8CD879}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9EABF5D9-3136-43A9-B0AE-4CBF2C8CD879}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9EABF5D9-3136-43A9-B0AE-4CBF2C8CD879}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DE368B44-C29D-4F24-A647-70C882E59FC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DE368B44-C29D-4F24-A647-70C882E59FC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE368B44-C29D-4F24-A647-70C882E59FC4}.Release|Any CPU.ActiveCfg = Release|Any CPU

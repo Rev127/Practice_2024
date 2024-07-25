@@ -6,7 +6,7 @@ using ToDoApp.Services.Interfaces;
 
 namespace ToDoApp.Api.Controllers
 {
-    [Route("api/to-do-boards")]
+    [Route("api/boards")]
     [ApiController]
     public class BoardsController : ControllerBase
     {
@@ -17,10 +17,10 @@ namespace ToDoApp.Api.Controllers
             _services = services;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tasks>>> GetBoardsAsync()
+        [HttpGet("{boardId}")]
+        public async Task<ActionResult<IEnumerable<Tasks>>> GetBoardAsync(int boardId)
         {
-            var boards = await _services.GetBoardAsync();
+            var boards = await _services.GetBoardAsync(boardId);
             return Ok(boards);
         }
 

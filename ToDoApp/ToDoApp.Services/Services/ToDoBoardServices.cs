@@ -2,6 +2,7 @@
 using ToDoApp.Data.Context;
 using ToDoApp.Data.Models;
 using ToDoApp.Services.Dtos;
+using ToDoApp.Services.Exceptions;
 using ToDoApp.Services.Interfaces;
 
 namespace ToDoApp.Services.Services
@@ -9,12 +10,10 @@ namespace ToDoApp.Services.Services
     public class ToDoBoardServices : IToDoBoardServices
     {
         private readonly ToDoContext _context;
-        private readonly ICurrentBoardServises _currentBoardServises;
 
-        public ToDoBoardServices(ToDoContext context, ICurrentUserServices currentUserServices, ICurrentBoardServises currentBoardServises)
+        public ToDoBoardServices(ToDoContext context, ICurrentUserServices currentUserServices)
         {
             _context = context;
-            _currentBoardServises = currentBoardServises;
         }
         public async Task CreateBoardAsync(CreateBoardDto boardDto)
         {
@@ -27,9 +26,16 @@ namespace ToDoApp.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Boards>> GetBoardAsync()
+        public async Task<List<Boards>> GetBoardAsync(int boardId)
         {
-            return await _context.Board.Where(x => x.Id == _currentBoardServises.BoardId).ToListAsync();
+            var board = await _context.Board.FindAsync(boardId);
+
+            if (board is null)
+            {
+                throw new BoardNotFoundException();
+            }
+
+            return await _context.Board.Where(x => x.Id == boardId).ToListAsync();
         }
     }
 }

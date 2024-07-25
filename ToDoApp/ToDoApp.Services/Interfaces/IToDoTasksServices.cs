@@ -5,12 +5,12 @@ namespace ToDoApp.Services.Interfaces
 {
     public interface IToDoTasksServices
     {
-        Task<List<Tasks>> GetTasksAsync();
-        Task CreateTaskAsync(CreateTaskDto taskDto);
-        Task UpdateTaskTitleAsync(int id, string title);
-        Task UpdateTaskDescriptionAsync(int id, string description);
-        Task UpdateTaskStatusAsync(int id, int statusId);
-        Task UpdateAssigneeAsync(int id, int assigneeId);
-        Task DeleteTaskAsync(int id);
+        Task<List<Tasks>> GetTasksAsync(int boardId);
+        Task CreateTaskAsync(int boardId, CreateTaskDto taskDto);
+        Task UpdateTaskTitleAsync(int boardId, int taskId, string title);
+        Task UpdateTaskDescriptionAsync(int boardId, int taskId, string description);
+        Task UpdateTaskStatusAsync(int boardId, int taskId, int statusId);
+        Task UpdateAssigneeAsync(int boardId, int taskId, int assigneeId);
+        Task DeleteTaskAsync(int boardId, int taskId);
     }
 }

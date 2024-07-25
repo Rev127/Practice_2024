@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToDoApp.Data.Context;
 
@@ -11,9 +12,11 @@ using ToDoApp.Data.Context;
 namespace ToDoApp.Data.Migrations
 {
     [DbContext(typeof(ToDoContext))]
-    partial class ToDoContextModelSnapshot : ModelSnapshot
+    [Migration("20240724180641_Add-Name-And-Description-Max-Length-Constrain")]
+    partial class AddNameAndDescriptionMaxLengthConstrain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +44,7 @@ namespace ToDoApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Board", (string)null);
+                    b.ToTable("Board");
                 });
 
             modelBuilder.Entity("ToDoApp.Data.Models.Statuses", b =>
@@ -58,7 +61,7 @@ namespace ToDoApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Statuss", (string)null);
+                    b.ToTable("Statuss");
 
                     b.HasData(
                         new
@@ -116,7 +119,7 @@ namespace ToDoApp.Data.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Task", (string)null);
+                    b.ToTable("Task");
                 });
 
             modelBuilder.Entity("ToDoApp.Data.Models.Users", b =>
@@ -133,7 +136,7 @@ namespace ToDoApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("ToDoApp.Data.Models.Tasks", b =>

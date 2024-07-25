@@ -2,6 +2,8 @@
 using ToDoApp.Data.Context;
 using ToDoApp.Data.Models;
 using ToDoApp.Services.Dtos;
+using ToDoApp.Services.Enums;
+using ToDoApp.Services.Exceptions;
 using ToDoApp.Services.Interfaces;
 
 namespace ToDoApp.Services.Services
@@ -10,28 +12,40 @@ namespace ToDoApp.Services.Services
     {
         private readonly ToDoContext _context;
         private readonly ICurrentUserServices _currentUserServices;
-        private readonly ICurrentBoardServises _currentBoardServises;
 
-        public ToDoTasksServices(ToDoContext context, ICurrentUserServices currentUserServices, ICurrentBoardServises currentBoardServises) 
+        public ToDoTasksServices(ToDoContext context, ICurrentUserServices currentUserServices) 
         {
             _context = context;
             _currentUserServices = currentUserServices;
-            _currentBoardServises = currentBoardServises;
         }
 
 
-        public async Task<List<Tasks>> GetTasksAsync()
+        public async Task<List<Tasks>> GetTasksAsync(int boardId)
         {
-            return await _context.Task.Where(x => x.AssigneeId == _currentUserServices.UserId && x.BoardId == _currentBoardServises.BoardId).ToListAsync();
+            /*var board = await _context.Board.FindAsync(boardId);
+
+            if (board is null)
+            {
+                throw new BoardNotFoundException();
+            }*/
+
+            return await _context.Task.Where(x => x.AssigneeId == _currentUserServices.UserId && x.BoardId == boardId).ToListAsync();
         }
 
-        public async Task CreateTaskAsync(CreateTaskDto taskDto)
+        public async Task CreateTaskAsync(int boardId, CreateTaskDto taskDto)
         {
+            var board = await _context.Board.FindAsync(boardId);
+
+            if (board is null)
+            {
+                throw new BoardNotFoundException();
+            }
+
             var item = new Tasks
             {
                 Title = taskDto.Title,
                 Description = taskDto.Description,
-                BoardId = _currentBoardServises.BoardId,
+                BoardId = boardId,
                 StatusId = 1,
                 AssigneeId = _currentUserServices.UserId
             };
@@ -40,65 +54,124 @@ namespace ToDoApp.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateTaskTitleAsync(int id, string title)
+        public async Task UpdateTaskTitleAsync(int boardId, int taskId, string title)
         {
-            var task = await _context.Task.FindAsync(id);
+            var task = await _context.Task.FindAsync(taskId);
 
-            if (task is null) { }
+            if (task is null) 
+            {
+                throw new TaskNotFoundException();
+            }
 
-            if (task.AssigneeId != _currentUserServices.UserId) { }
+            if(task.BoardId != boardId) 
+            {
+                throw new TaskHasDifferentBoardException();
+            }
+
+            if (task.AssigneeId != _currentUserServices.UserId) 
+            { 
+                throw new TaskHasDifferentAssigneeException();
+            }
 
             task.Title = title;
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateTaskDescriptionAsync(int id, string description)
+        public async Task UpdateTaskDescriptionAsync(int boardId, int taskId, string description)
         {
-            var task = await _context.Task.FindAsync(id);
+            var task = await _context.Task.FindAsync(taskId);
 
-            if (task is null) { }
+            if (task is null)
+            {
+                throw new TaskNotFoundException();
+            }
 
-            if (task.AssigneeId != _currentUserServices.UserId) { }
+            if (task.BoardId != boardId)
+            {
+                throw new TaskHasDifferentBoardException();
+            }
+
+            if (task.AssigneeId != _currentUserServices.UserId)
+            {
+                throw new TaskHasDifferentAssigneeException();
+            }
 
             task.Description = description;
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateTaskStatusAsync(int id, int statusId)
+        public async Task UpdateTaskStatusAsync(int boardId, int taskId, int statusId)
         {
-            var task = await _context.Task.FindAsync(id);
+            var task = await _context.Task.FindAsync(taskId);
 
-            if (task is null) { }
+            if (task is null)
+            {
+                throw new TaskNotFoundException();
+            }
 
-            if (task.AssigneeId != _currentUserServices.UserId) { }
+            if (task.BoardId != boardId)
+            {
+                throw new TaskHasDifferentBoardException();
+            }
 
-            if ((task.StatusId == 2 && (statusId == 1 || statusId == 3)) || task.StatusId == 1 && statusId == 2)
+            if (task.AssigneeId != _currentUserServices.UserId)
+            {
+                throw new TaskHasDifferentAssigneeException();
+            }
+
+            if (((TasksStatus)task.StatusId == TasksStatus.InProgress && ((TasksStatus)statusId == TasksStatus.ToDo || (TasksStatus)statusId == TasksStatus.Done)) || (TasksStatus)task.StatusId == TasksStatus.ToDo && (TasksStatus)statusId == TasksStatus.InProgress)
             {
                 task.StatusId = statusId;
+            }
+            else
+            {
+                throw new InvalidTaskStatusException();
             }
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAssigneeAsync(int id, int assigneeId)
+        public async Task UpdateAssigneeAsync(int boardId, int taskId, int assigneeId)
         {
-            var task = await _context.Task.FindAsync(id);
+            var task = await _context.Task.FindAsync(taskId);
 
-            if (task is null) { }
+            if (task is null)
+            {
+                throw new TaskNotFoundException();
+            }
 
-            if (task.AssigneeId != _currentUserServices.UserId) { }
+            if (task.BoardId != boardId)
+            {
+                throw new TaskHasDifferentBoardException();
+            }
+
+            if (task.AssigneeId != _currentUserServices.UserId)
+            {
+                throw new TaskHasDifferentAssigneeException();
+            }
 
             task.AssigneeId = assigneeId;
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteTaskAsync(int id)
+        public async Task DeleteTaskAsync(int boardId, int taskId)
         {
-            var task = await _context.Task.FindAsync(id);
+            var task = await _context.Task.FindAsync(taskId);
 
-            if (task is null) { }
+            if (task is null)
+            {
+                throw new TaskNotFoundException();
+            }
 
-            if (task.AssigneeId != _currentUserServices.UserId) { }
+            if (task.BoardId != boardId)
+            {
+                throw new TaskHasDifferentBoardException();
+            }
+
+            if (task.AssigneeId != _currentUserServices.UserId)
+            {
+                throw new TaskHasDifferentAssigneeException();
+            }
 
             _context.Task.Remove(task);
             await _context.SaveChangesAsync();
