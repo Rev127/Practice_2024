@@ -20,16 +20,27 @@ namespace ToDoApp.Services.Services
         }
 
 
-        public async Task<List<Tasks>> GetTasksAsync(int boardId)
+        public async Task<List<GetTaskDto>> GetTasksAsync(int boardId)
         {
-            /*var board = await _context.Board.FindAsync(boardId);
+            var board = await _context.Board.FindAsync(boardId);
 
             if (board is null)
             {
                 throw new BoardNotFoundException();
-            }*/
+            }
 
-            return await _context.Task.Where(x => x.AssigneeId == _currentUserServices.UserId && x.BoardId == boardId).ToListAsync();
+            return await _context.Task
+                .Where(x => x.AssigneeId == _currentUserServices.UserId && x.BoardId == boardId)
+                .Select(x => new GetTaskDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Description = x.Description,
+                    BoardId = x.BoardId,
+                    StatusId = x.StatusId,
+                    AssigneeId = x.AssigneeId
+                })
+                .ToListAsync();
         }
 
         public async Task CreateTaskAsync(int boardId, CreateTaskDto taskDto)
@@ -54,7 +65,7 @@ namespace ToDoApp.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateTaskTitleAsync(int boardId, int taskId, string title)
+        public async Task UpdateTaskTitleAsync(int taskId, UpdateTaskDto updateTaskDto)
         {
             var task = await _context.Task.FindAsync(taskId);
 
@@ -63,21 +74,16 @@ namespace ToDoApp.Services.Services
                 throw new TaskNotFoundException();
             }
 
-            if(task.BoardId != boardId) 
+            if (task.BoardId != updateTaskDto.BoardId)
             {
                 throw new TaskHasDifferentBoardException();
             }
 
-            if (task.AssigneeId != _currentUserServices.UserId) 
-            { 
-                throw new TaskHasDifferentAssigneeException();
-            }
-
-            task.Title = title;
+            task.Title = updateTaskDto.Title;
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateTaskDescriptionAsync(int boardId, int taskId, string description)
+        public async Task UpdateTaskDescriptionAsync(int taskId, UpdateTaskDto updateTaskDto)
         {
             var task = await _context.Task.FindAsync(taskId);
 
@@ -86,21 +92,16 @@ namespace ToDoApp.Services.Services
                 throw new TaskNotFoundException();
             }
 
-            if (task.BoardId != boardId)
+            if (task.BoardId != updateTaskDto.BoardId)
             {
                 throw new TaskHasDifferentBoardException();
             }
 
-            if (task.AssigneeId != _currentUserServices.UserId)
-            {
-                throw new TaskHasDifferentAssigneeException();
-            }
-
-            task.Description = description;
+            task.Description = updateTaskDto.Description;
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateTaskStatusAsync(int boardId, int taskId, int statusId)
+        public async Task UpdateTaskStatusAsync(int taskId, UpdateTaskDto updateTaskDto)
         {
             var task = await _context.Task.FindAsync(taskId);
 
@@ -109,19 +110,16 @@ namespace ToDoApp.Services.Services
                 throw new TaskNotFoundException();
             }
 
-            if (task.BoardId != boardId)
+            if (task.BoardId != updateTaskDto.BoardId)
             {
                 throw new TaskHasDifferentBoardException();
             }
 
-            if (task.AssigneeId != _currentUserServices.UserId)
-            {
-                throw new TaskHasDifferentAssigneeException();
-            }
+            var statusValidation = await _context.statusesValidations.Where(x => x.StatusValidationId == updateTaskDto.StatusId).FirstAsync();
 
-            if (((TasksStatus)task.StatusId == TasksStatus.InProgress && ((TasksStatus)statusId == TasksStatus.ToDo || (TasksStatus)statusId == TasksStatus.Done)) || (TasksStatus)task.StatusId == TasksStatus.ToDo && (TasksStatus)statusId == TasksStatus.InProgress)
+            if (task.StatusId == statusValidation.StatusId)
             {
-                task.StatusId = statusId;
+                task.StatusId = (int)updateTaskDto.StatusId;
             }
             else
             {
@@ -131,7 +129,7 @@ namespace ToDoApp.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAssigneeAsync(int boardId, int taskId, int assigneeId)
+        public async Task UpdateAssigneeAsync(int taskId, UpdateTaskDto updateTaskDto)
         {
             var task = await _context.Task.FindAsync(taskId);
 
@@ -140,17 +138,12 @@ namespace ToDoApp.Services.Services
                 throw new TaskNotFoundException();
             }
 
-            if (task.BoardId != boardId)
+            if (task.BoardId != updateTaskDto.BoardId)
             {
                 throw new TaskHasDifferentBoardException();
             }
 
-            if (task.AssigneeId != _currentUserServices.UserId)
-            {
-                throw new TaskHasDifferentAssigneeException();
-            }
-
-            task.AssigneeId = assigneeId;
+            task.AssigneeId = updateTaskDto.AssigneeId;
             await _context.SaveChangesAsync();
         }
 
@@ -166,11 +159,6 @@ namespace ToDoApp.Services.Services
             if (task.BoardId != boardId)
             {
                 throw new TaskHasDifferentBoardException();
-            }
-
-            if (task.AssigneeId != _currentUserServices.UserId)
-            {
-                throw new TaskHasDifferentAssigneeException();
             }
 
             _context.Task.Remove(task);

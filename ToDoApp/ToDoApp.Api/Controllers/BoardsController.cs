@@ -17,11 +17,18 @@ namespace ToDoApp.Api.Controllers
             _services = services;
         }
 
-        [HttpGet("{boardId}")]
-        public async Task<ActionResult<IEnumerable<Tasks>>> GetBoardAsync(int boardId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<GetBoardDto>>> GetBoardsAsync()
         {
-            var boards = await _services.GetBoardAsync(boardId);
+            var boards = await _services.GetBoardsAsync();
             return Ok(boards);
+        }
+
+        [HttpGet("{boardId}")]
+        public async Task<ActionResult<IEnumerable<GetBoardDto>>> GetBoardAsync(int boardId)
+        {
+            var board = await _services.GetBoardAsync(boardId);
+            return Ok(board);
         }
 
         [HttpPost]

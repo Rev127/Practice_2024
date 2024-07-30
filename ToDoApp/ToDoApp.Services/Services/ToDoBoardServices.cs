@@ -26,7 +26,7 @@ namespace ToDoApp.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Boards>> GetBoardAsync(int boardId)
+        public async Task<GetBoardDto> GetBoardAsync(int boardId)
         {
             var board = await _context.Board.FindAsync(boardId);
 
@@ -35,7 +35,27 @@ namespace ToDoApp.Services.Services
                 throw new BoardNotFoundException();
             }
 
-            return await _context.Board.Where(x => x.Id == boardId).ToListAsync();
+            return await _context.Board
+                .Where(x => x.Id == boardId)
+                .Select(x => new GetBoardDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    CreatedAt = x.CreatedAt
+                })
+                .FirstAsync();
+        }
+
+        public async Task<List<GetBoardDto>> GetBoardsAsync()
+        {
+            return await _context.Board
+                .Select(x => new GetBoardDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    CreatedAt = x.CreatedAt
+                })
+                .ToListAsync();
         }
     }
 }

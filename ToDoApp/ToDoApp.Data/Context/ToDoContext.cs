@@ -10,6 +10,7 @@ namespace ToDoApp.Data.Context
         public DbSet<Users> User { get; set; }
         public DbSet<Statuses> Statuss { get; set; }
         public DbSet<Tasks> Task {  get; set; }
+        public DbSet<StatusesValidation> statusesValidations { get; set; }
 
         public ToDoContext(DbContextOptions<ToDoContext> options) : base(options) {}
 
@@ -43,12 +44,6 @@ namespace ToDoApp.Data.Context
                 .WithOne(t => t.User)
                 .HasForeignKey(t => t.AssigneeId);
 
-            //modelBuilder.Entity<Users>()
-            //   .HasMany(t => t.Boards)
-            //   .WithOne(t => t.User)
-            //   .HasForeignKey(t => t.CreatedById)
-            //   .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Tasks>()
                 .HasKey(t => t.Id);
 
@@ -76,6 +71,11 @@ namespace ToDoApp.Data.Context
                 .WithOne(t => t.Status)
                 .HasForeignKey(t => t.StatusId);
 
+            modelBuilder.Entity<Statuses>()
+                .HasMany(t => t.StatusesValidation)
+                .WithOne(t => t.Status)
+                .HasForeignKey(t => t.StatusId);
+
             modelBuilder.Entity<Statuses>().HasData(
                 new Statuses
                 {
@@ -96,9 +96,34 @@ namespace ToDoApp.Data.Context
                 }
             );
 
-            modelBuilder.Entity<Boards>().HasData(new Boards { Id = 1 });
-            modelBuilder.Entity<Users>().HasData(new Users { Id = 1 });
-            modelBuilder.Entity<Tasks>().HasData(new Tasks { Id = 1 });
+            modelBuilder.Entity<StatusesValidation>()
+                .HasKey(t => t.Id);
+
+            modelBuilder.Entity<StatusesValidation>().HasData(
+                new StatusesValidation
+                {
+                    Id = 1,
+                    StatusId = 1,
+                    StatusValidationId = 2,
+                    StatusValidationName = "To Do -> In Progress"
+                },
+
+                new StatusesValidation
+                {
+                    Id = 2,
+                    StatusId = 2,
+                    StatusValidationId = 1,
+                    StatusValidationName = "In Progress -> To Do"
+                },
+
+                new StatusesValidation
+                {
+                    Id = 3,
+                    StatusId = 2,
+                    StatusValidationId = 3,
+                    StatusValidationName = "In Progress -> Done"
+                }
+            );
 
             base.OnModelCreating(modelBuilder);
         }
