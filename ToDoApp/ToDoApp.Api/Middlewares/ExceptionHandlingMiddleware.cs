@@ -29,7 +29,7 @@ namespace ToDoApp.Api.Middlewares
             catch (Exception ex)
             {
                 httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                var response = new { message = ex.Message };
+                var response = new { message = "Server Error" };
                 await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response));
             }
         }

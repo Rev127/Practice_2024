@@ -115,15 +115,15 @@ namespace ToDoApp.Services.Services
                 throw new TaskHasDifferentBoardException();
             }
 
-            var statusValidation = await _context.statusesValidations.Where(x => x.StatusValidationId == updateTaskDto.StatusId).FirstAsync();
+            var statusValidation = await _context.statusesValidations.Where(x => x.StatusId == task.StatusId && x.StatusValidationId == updateTaskDto.StatusId).FirstOrDefaultAsync();
 
-            if (task.StatusId == statusValidation.StatusId)
+            if (statusValidation is null)
             {
-                task.StatusId = (int)updateTaskDto.StatusId;
+                throw new InvalidTaskStatusException();
             }
             else
             {
-                throw new InvalidTaskStatusException();
+                task.StatusId = (int)updateTaskDto.StatusId;
             }
 
             await _context.SaveChangesAsync();

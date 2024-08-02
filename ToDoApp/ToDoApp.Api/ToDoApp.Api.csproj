@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ToDoApp.Data\ToDoApp.Data.csproj" />
+    <ProjectReference Include="..\ToDoApp.Services.Test\ToDoApp.Services.Test.csproj" />
     <ProjectReference Include="..\ToDoApp.Services\ToDoApp.Services.csproj" />
   </ItemGroup>
 
