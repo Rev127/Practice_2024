@@ -2,7 +2,6 @@
 using ToDoApp.Data.Context;
 using ToDoApp.Data.Models;
 using ToDoApp.Services.Dtos;
-using ToDoApp.Services.Enums;
 using ToDoApp.Services.Exceptions;
 using ToDoApp.Services.Interfaces;
 

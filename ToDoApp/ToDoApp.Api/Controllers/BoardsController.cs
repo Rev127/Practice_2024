@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ToDoApp.Data.Models;
 using ToDoApp.Services.Dtos;
 using ToDoApp.Services.Interfaces;
 
 namespace ToDoApp.Api.Controllers
 {
+    [Authorize]
     [Route("api/boards")]
     [ApiController]
     public class BoardsController : ControllerBase

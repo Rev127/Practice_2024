@@ -12,7 +12,7 @@ namespace ToDoApp.Services.Test.Services
 {
     public class ToDoTasksServicesTest
     {
-        private readonly int UserId = 1;
+        private readonly string UserId = "1";
 
         [Fact]
         public async Task UpdateTaskTitleAsync_WithNonExistingItem_TaskNotFoundException()
@@ -366,8 +366,8 @@ namespace ToDoApp.Services.Test.Services
 
 
         [Theory]
-        [InlineData(1, 2)]
-        public async Task UpdateAssigneeAsync_TaskAssigneeСhanged(int currentAssignee, int expectedAssignee)
+        [InlineData("1", "2")]
+        public async Task UpdateAssigneeAsync_TaskAssigneeСhanged(string currentAssignee, string expectedAssignee)
         {
             // Arrange
             var currentUserServices = new Mock<ICurrentUserServices>();

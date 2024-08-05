@@ -1,5 +1,4 @@
-﻿using ToDoApp.Data.Models;
-using ToDoApp.Services.Dtos;
+﻿using ToDoApp.Services.Dtos;
 
 namespace ToDoApp.Services.Interfaces
 {

@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ToDoApp.Data.Models;
 
 
 namespace ToDoApp.Data.Context
 {
-    public class ToDoContext : DbContext
+    public class ToDoContext : IdentityDbContext<Users>
     {
         public DbSet<Boards> Board { get; set; }
-        public DbSet<Users> User { get; set; }
         public DbSet<Statuses> Statuss { get; set; }
         public DbSet<Tasks> Task {  get; set; }
         public DbSet<StatusesValidation> statusesValidations { get; set; }
@@ -34,10 +34,6 @@ namespace ToDoApp.Data.Context
 
             modelBuilder.Entity<Users>()
                 .HasKey(t => t.Id);
-
-            modelBuilder.Entity<Users>()
-                .Property(t => t.Name)
-                .HasMaxLength(50);
 
             modelBuilder.Entity<Users>()
                 .HasMany(t => t.Tasks)

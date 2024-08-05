@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ToDoApp.Data.Context;
-using ToDoApp.Data.Models;
 using ToDoApp.Services.Dtos;
 using ToDoApp.Services.Interfaces;
 
 namespace ToDoApp.Api.Controllers
 {
+    [Authorize]
     [Route("api/tasks")]
     [ApiController]
     public class TasksController : ControllerBase

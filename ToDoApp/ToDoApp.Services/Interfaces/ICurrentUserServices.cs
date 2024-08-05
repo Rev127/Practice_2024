@@ -1,8 +1,7 @@
-﻿
-namespace ToDoApp.Services.Interfaces
+﻿namespace ToDoApp.Services.Interfaces
 {
     public interface ICurrentUserServices
     {
-        int UserId { get; }
+        string UserId { get; }
     }
 }
