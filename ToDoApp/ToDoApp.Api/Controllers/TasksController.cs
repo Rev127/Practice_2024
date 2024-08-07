@@ -31,31 +31,31 @@ namespace ToDoApp.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("{taskId}/title")]
-        public async Task<ActionResult> UpdateTaskTitleAsync(int taskId, UpdateTaskDto updateTaskDto)
+        [HttpPut("/title")]
+        public async Task<ActionResult> UpdateTaskTitleAsync(UpdateTaskDto updateTaskDto)
         {
-            await _services.UpdateTaskTitleAsync(taskId, updateTaskDto);
+            await _services.UpdateTaskTitleAsync(updateTaskDto);
             return Ok();
         }
 
-        [HttpPut("{taskId}/description")]
-        public async Task<ActionResult> UpdateTaskDescriptionAsync(int taskId, UpdateTaskDto updateTaskDto)
+        [HttpPut("/description")]
+        public async Task<ActionResult> UpdateTaskDescriptionAsync(UpdateTaskDto updateTaskDto)
         {
-            await _services.UpdateTaskDescriptionAsync(taskId, updateTaskDto);
+            await _services.UpdateTaskDescriptionAsync(updateTaskDto);
             return Ok();
         }
 
-        [HttpPut("{taskId}/status")]
-        public async Task<ActionResult> UpdateTaskStatusAsync(int taskId, UpdateTaskDto updateTaskDto)
+        [HttpPut("/status")]
+        public async Task<ActionResult> UpdateTaskStatusAsync(UpdateTaskDto updateTaskDto)
         {
-            await _services.UpdateTaskStatusAsync(taskId, updateTaskDto);
+            await _services.UpdateTaskStatusAsync(updateTaskDto);
             return Ok();
         }
 
-        [HttpPut("{taskId}/assignee")]
-        public async Task<ActionResult> UpdateTaskAssigneeAsync(int taskId, UpdateTaskDto updateTaskDto)
+        [HttpPut("/assignee")]
+        public async Task<ActionResult> UpdateTaskAssigneeAsync(UpdateTaskDto updateTaskDto)
         {
-            await _services.UpdateAssigneeAsync(taskId, updateTaskDto);
+            await _services.UpdateAssigneeAsync(updateTaskDto);
             return Ok();
         }
 

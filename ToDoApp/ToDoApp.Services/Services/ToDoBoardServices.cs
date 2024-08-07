@@ -46,9 +46,9 @@ namespace ToDoApp.Services.Services
                 .FirstAsync();
         }
 
-        public async Task<List<GetBoardDto>> GetBoardsAsync()
+        public async Task<List<GetBoardDto>> GetAllBoardsAsync()
         {
-            return await _context.Board
+            var boards = await _context.Board
                 .Select(x => new GetBoardDto
                 {
                     Id = x.Id,
@@ -56,6 +56,13 @@ namespace ToDoApp.Services.Services
                     CreatedAt = x.CreatedAt
                 })
                 .ToListAsync();
+
+            if (!boards.Any())
+            {
+                throw new BoardNotFoundException();
+            }
+
+            return boards;
         }
     }
 }

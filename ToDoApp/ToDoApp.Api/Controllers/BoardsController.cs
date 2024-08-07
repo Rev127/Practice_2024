@@ -18,9 +18,9 @@ namespace ToDoApp.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetBoardDto>>> GetBoardsAsync()
+        public async Task<ActionResult<IEnumerable<GetBoardDto>>> GetAllBoardsAsync()
         {
-            var boards = await _services.GetBoardsAsync();
+            var boards = await _services.GetAllBoardsAsync();
             return Ok(boards);
         }
 

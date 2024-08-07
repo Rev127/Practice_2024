@@ -64,9 +64,9 @@ namespace ToDoApp.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateTaskTitleAsync(int taskId, UpdateTaskDto updateTaskDto)
+        public async Task UpdateTaskTitleAsync(UpdateTaskDto updateTaskDto)
         {
-            var task = await _context.Task.FindAsync(taskId);
+            var task = await _context.Task.FindAsync(updateTaskDto.Id);
 
             if (task is null) 
             {
@@ -82,9 +82,9 @@ namespace ToDoApp.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateTaskDescriptionAsync(int taskId, UpdateTaskDto updateTaskDto)
+        public async Task UpdateTaskDescriptionAsync(UpdateTaskDto updateTaskDto)
         {
-            var task = await _context.Task.FindAsync(taskId);
+            var task = await _context.Task.FindAsync(updateTaskDto.Id);
 
             if (task is null)
             {
@@ -100,9 +100,9 @@ namespace ToDoApp.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateTaskStatusAsync(int taskId, UpdateTaskDto updateTaskDto)
+        public async Task UpdateTaskStatusAsync(UpdateTaskDto updateTaskDto)
         {
-            var task = await _context.Task.FindAsync(taskId);
+            var task = await _context.Task.FindAsync(updateTaskDto.Id);
 
             if (task is null)
             {
@@ -128,9 +128,9 @@ namespace ToDoApp.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAssigneeAsync(int taskId, UpdateTaskDto updateTaskDto)
+        public async Task UpdateAssigneeAsync(UpdateTaskDto updateTaskDto)
         {
-            var task = await _context.Task.FindAsync(taskId);
+            var task = await _context.Task.FindAsync(updateTaskDto.Id);
 
             if (task is null)
             {

@@ -4,7 +4,7 @@ namespace ToDoApp.Services.Interfaces
 {
     public interface IToDoBoardServices
     {
-        Task<List<GetBoardDto>> GetBoardsAsync();
+        Task<List<GetBoardDto>> GetAllBoardsAsync();
         Task<GetBoardDto> GetBoardAsync(int boardId);
         Task CreateBoardAsync(CreateBoardDto boardDto);
     }

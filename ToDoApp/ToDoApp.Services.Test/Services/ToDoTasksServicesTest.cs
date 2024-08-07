@@ -25,11 +25,12 @@ namespace ToDoApp.Services.Test.Services
 
             var updateTaskDto = new UpdateTaskDto
             {
+                Id = 1,    
                 BoardId = 1,
             };
 
             // Act
-            Func<Task> act = async () => await service.UpdateTaskTitleAsync(1, updateTaskDto);
+            Func<Task> act = async () => await service.UpdateTaskTitleAsync(updateTaskDto);
 
             // Assert
             await Assert.ThrowsAsync<TaskNotFoundException>(act);
@@ -61,12 +62,13 @@ namespace ToDoApp.Services.Test.Services
 
             var updateTaskDto = new UpdateTaskDto
             {
+                Id = 1,
                 BoardId = 1,
                 StatusId = 1
             };
 
             // Act
-            Func<Task> act = async () => await service.UpdateTaskTitleAsync(1, updateTaskDto);
+            Func<Task> act = async () => await service.UpdateTaskTitleAsync(updateTaskDto);
 
             // Assert
             await Assert.ThrowsAsync<TaskHasDifferentBoardException>(act);
@@ -98,12 +100,13 @@ namespace ToDoApp.Services.Test.Services
 
             var updateTaskDto = new UpdateTaskDto
             {
+                Id = 1,
                 Title = expectedTitle,
                 BoardId = 1
             };
 
             // Act
-            await service.UpdateTaskTitleAsync(1, updateTaskDto);
+            await service.UpdateTaskTitleAsync(updateTaskDto);
 
             // Assert
             var updateTask = await context.Task.FindAsync(1);
@@ -121,11 +124,12 @@ namespace ToDoApp.Services.Test.Services
 
             var updateTaskDto = new UpdateTaskDto
             {
+                Id = 1,
                 BoardId = 1,
             };
 
             // Act
-            Func<Task> act = async () => await service.UpdateTaskDescriptionAsync(1, updateTaskDto);
+            Func<Task> act = async () => await service.UpdateTaskDescriptionAsync(updateTaskDto);
 
             // Assert
             await Assert.ThrowsAsync<TaskNotFoundException>(act);
@@ -157,11 +161,12 @@ namespace ToDoApp.Services.Test.Services
 
             var updateTaskDto = new UpdateTaskDto
             {
+                Id = 1,
                 BoardId = 1,
             };
 
             // Act
-            Func<Task> act = async () => await service.UpdateTaskDescriptionAsync(1, updateTaskDto);
+            Func<Task> act = async () => await service.UpdateTaskDescriptionAsync(updateTaskDto);
 
             // Assert
             await Assert.ThrowsAsync<TaskHasDifferentBoardException>(act);
@@ -194,12 +199,13 @@ namespace ToDoApp.Services.Test.Services
 
             var updateTaskDto = new UpdateTaskDto
             {
+                Id = 1,
                 Description = expectedDescription,
                 BoardId = 1
             };
 
             // Act
-            await service.UpdateTaskDescriptionAsync(1, updateTaskDto);
+            await service.UpdateTaskDescriptionAsync(updateTaskDto);
 
             // Assert
             var updateTask = await context.Task.FindAsync(1);
@@ -218,12 +224,13 @@ namespace ToDoApp.Services.Test.Services
 
             var updateTaskDto = new UpdateTaskDto
             {
+                Id = 1,
                 BoardId = 1,
                 StatusId = 1
             };
 
             // Act
-            Func<Task> act = async () => await service.UpdateTaskStatusAsync(1, updateTaskDto);
+            Func<Task> act = async () => await service.UpdateTaskStatusAsync(updateTaskDto);
 
             // Assert
             await Assert.ThrowsAsync<TaskNotFoundException>(act);
@@ -255,12 +262,13 @@ namespace ToDoApp.Services.Test.Services
 
             var updateTaskDto = new UpdateTaskDto
             {
+                Id = 1,
                 BoardId = 1,
                 StatusId = 1
             };
 
             // Act
-            Func<Task> act = async () => await service.UpdateTaskStatusAsync(1, updateTaskDto);
+            Func<Task> act = async () => await service.UpdateTaskStatusAsync(updateTaskDto);
 
             // Assert
             await Assert.ThrowsAsync<TaskHasDifferentBoardException>(act);
@@ -294,13 +302,14 @@ namespace ToDoApp.Services.Test.Services
             var service = new ToDoTasksServices(context, currentUserServices.Object);
 
             var updateTaskDto = new UpdateTaskDto
-            {
+            {   
+                Id = 1,
                 BoardId = 1,
                 StatusId = (int)expectedStatus
             };
 
             // Act
-            await service.UpdateTaskStatusAsync(1, updateTaskDto);
+            await service.UpdateTaskStatusAsync(updateTaskDto);
 
             // Assert
             var updateTask = await context.Task.FindAsync(1);
@@ -318,11 +327,12 @@ namespace ToDoApp.Services.Test.Services
 
             var updateTaskDto = new UpdateTaskDto
             {
+                Id = 1,
                 BoardId = 1,
             };
 
             // Act
-            Func<Task> act = async () => await service.UpdateAssigneeAsync(1, updateTaskDto);
+            Func<Task> act = async () => await service.UpdateAssigneeAsync(updateTaskDto);
 
             // Assert
             await Assert.ThrowsAsync<TaskNotFoundException>(act);
@@ -354,11 +364,12 @@ namespace ToDoApp.Services.Test.Services
 
             var updateTaskDto = new UpdateTaskDto
             {
+                Id = 1,
                 BoardId = 1,
             };
 
             // Act
-            Func<Task> act = async () => await service.UpdateAssigneeAsync(1, updateTaskDto);
+            Func<Task> act = async () => await service.UpdateAssigneeAsync(updateTaskDto);
 
             // Assert
             await Assert.ThrowsAsync<TaskHasDifferentBoardException>(act);
@@ -391,12 +402,13 @@ namespace ToDoApp.Services.Test.Services
 
             var updateTaskDto = new UpdateTaskDto
             {
+                Id = 1,
                 AssigneeId = expectedAssignee,
                 BoardId = 1
             };
 
             // Act
-            await service.UpdateAssigneeAsync(1, updateTaskDto);
+            await service.UpdateAssigneeAsync(updateTaskDto);
 
             // Assert
             var updateTask = await context.Task.FindAsync(1);
