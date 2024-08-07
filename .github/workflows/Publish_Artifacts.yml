@@ -1,0 +1,30 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Publish Artifacts
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Install dependencies
+      run: dotnet restore ToDoApp/ToDoApp.sln
+    - name: Publish with dotnet
+      run: dotnet publish ToDoApp/ToDoApp.sln --logger trx --results-directory "PublishResults"
+    - name: Upload a Publish Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dotnet-results
+        path: PublishResults
+      if: ${{ always() }}
