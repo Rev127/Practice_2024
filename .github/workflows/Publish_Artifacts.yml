@@ -21,7 +21,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore ToDoApp/ToDoApp.sln
     - name: Publish with dotnet
-      run: dotnet publish ToDoApp/ToDoApp.sln --configuration Release --output PublishResult
+      run: dotnet publish ToDoApp/ToDoApp.sln --configuration Release --output ./PublishResults
     - name: Upload a Publish Artifacts
       uses: actions/upload-artifact@v4
       with:
