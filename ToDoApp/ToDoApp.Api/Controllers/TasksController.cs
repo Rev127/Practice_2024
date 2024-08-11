@@ -25,9 +25,9 @@ namespace ToDoApp.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateTaskAsync(int boardId, CreateTaskDto taskDto)
+        public async Task<ActionResult> CreateTaskAsync(CreateTaskDto taskDto)
         {
-            await _services.CreateTaskAsync(boardId, taskDto);
+            await _services.CreateTaskAsync(taskDto);
             return Ok();
         }
 
@@ -60,9 +60,9 @@ namespace ToDoApp.Api.Controllers
         }
 
         [HttpDelete("{taskId}")]
-        public async Task<ActionResult> DeleteTaskAsync(int boardId, int taskId)
+        public async Task<ActionResult> DeleteTaskAsync(int taskId)
         {
-            await _services.DeleteTaskAsync(boardId, taskId);
+            await _services.DeleteTaskAsync(taskId);
             return Ok();
         }
     }

@@ -35,15 +35,13 @@ namespace ToDoApp.Services.Services
                 throw new BoardNotFoundException();
             }
 
-            return await _context.Board
-                .Where(x => x.Id == boardId)
-                .Select(x => new GetBoardDto
+            return new GetBoardDto
                 {
-                    Id = x.Id,
-                    Name = x.Name,
-                    CreatedAt = x.CreatedAt
-                })
-                .FirstAsync();
+                    Id = board.Id,
+                    Name = board.Name,
+                    CreatedAt = board.CreatedAt
+                };
+  
         }
 
         public async Task<List<GetBoardDto>> GetAllBoardsAsync()

@@ -42,9 +42,9 @@ namespace ToDoApp.Services.Services
                 .ToListAsync();
         }
 
-        public async Task CreateTaskAsync(int boardId, CreateTaskDto taskDto)
+        public async Task CreateTaskAsync(CreateTaskDto taskDto)
         {
-            var board = await _context.Board.FindAsync(boardId);
+            var board = await _context.Board.FindAsync(taskDto.BoardId);
 
             if (board is null)
             {
@@ -55,7 +55,7 @@ namespace ToDoApp.Services.Services
             {
                 Title = taskDto.Title,
                 Description = taskDto.Description,
-                BoardId = boardId,
+                BoardId = taskDto.BoardId,
                 StatusId = 1,
                 AssigneeId = _currentUserServices.UserId
             };
@@ -120,10 +120,8 @@ namespace ToDoApp.Services.Services
             {
                 throw new InvalidTaskStatusException();
             }
-            else
-            {
-                task.StatusId = (int)updateTaskDto.StatusId;
-            }
+                
+            task.StatusId = (int)updateTaskDto.StatusId;
 
             await _context.SaveChangesAsync();
         }
@@ -146,18 +144,13 @@ namespace ToDoApp.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteTaskAsync(int boardId, int taskId)
+        public async Task DeleteTaskAsync(int taskId)
         {
             var task = await _context.Task.FindAsync(taskId);
 
             if (task is null)
             {
                 throw new TaskNotFoundException();
-            }
-
-            if (task.BoardId != boardId)
-            {
-                throw new TaskHasDifferentBoardException();
             }
 
             _context.Task.Remove(task);

@@ -68,9 +68,15 @@ namespace ToDoApp.Data.Context
                 .HasForeignKey(t => t.StatusId);
 
             modelBuilder.Entity<Statuses>()
-                .HasMany(t => t.StatusesValidation)
-                .WithOne(t => t.Status)
+                .HasMany(t => t.ValidationStatuses)
+                .WithOne(t => t.ValidationStatus)
                 .HasForeignKey(t => t.StatusId);
+
+            modelBuilder.Entity<Statuses>()
+                .HasMany(t => t.StatusesValidation)
+                .WithOne(t => t.StatusValidation)
+                .HasForeignKey(t => t.StatusValidationId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Statuses>().HasData(
                 new Statuses
